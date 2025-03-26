@@ -1,5 +1,6 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
+import crypto from "node:crypto";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,6 +10,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export function loader({ context }: Route.LoaderArgs) {
+  const hash = crypto.createHash("sha256").update(request.url).digest("hex");
+  console.log(hash);
   return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
 }
 
